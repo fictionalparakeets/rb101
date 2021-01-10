@@ -32,7 +32,7 @@ def calculate(opr, num1, num2)
 end
 
 puts "The answer is #{calculate(operation, num1, num2)}!"
-
+puts "Thanks for calculating!"
 
 
 
