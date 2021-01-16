@@ -39,8 +39,8 @@ def prompt(message)
 end
 
 def num_check(num)
-  if num != 0
-    true
+  num.to_i != 0
+    
   else
     prompt(errormessage)
     false
@@ -91,6 +91,7 @@ loop do # main loop
     loan_amount = loan_amount.to_i
     break if num_check(loan_amount) &&
              within_limits(loan_amount, min_loan, max_loan, loan_amt_err)
+    puts loan_amt_err
   end
 
   ann_int_rate = 0
