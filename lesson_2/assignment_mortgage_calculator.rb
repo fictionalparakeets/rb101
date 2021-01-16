@@ -47,7 +47,7 @@ def num_check(num)
   end
 end
 
-def between_limits(num, lowlimit, highlimit, errormessage)
+def within_limits(num, lowlimit, highlimit, errormessage)
   if num > highlimit
     prompt(errormessage)
     prompt("Double check your entry please. It looks like it's too high!")
@@ -90,7 +90,7 @@ loop do # main loop
     end
     loan_amount = loan_amount.to_i
     break if num_check(loan_amount) &&
-             between_limits(loan_amount, min_loan, max_loan, loan_amt_err)
+             within_limits(loan_amount, min_loan, max_loan, loan_amt_err)
   end
 
   ann_int_rate = 0
@@ -107,7 +107,7 @@ loop do # main loop
       break if answer == "yes"
     end
     break if num_check(ann_int_rate.to_i) &&
-             between_limits(ann_int_rate.to_i, min_apr, max_apr, apr_err_msg)
+             within_limits(ann_int_rate.to_i, min_apr, max_apr, apr_err_msg)
   end
 
   loan_yrs = 0
@@ -115,7 +115,7 @@ loop do # main loop
     prompt("How many years do you need the mortgage for?")
     loan_yrs = gets.chomp.to_i
     break if num_check(loan_yrs) &&
-             between_limits(loan_yrs, min_amrt_yrs, max_amrt_yrs, amrt_err_msg)
+             within_limits(loan_yrs, min_amrt_yrs, max_amrt_yrs, amrt_err_msg)
   end
 
   mnth_int_rate_decimal = ann_int_rate.to_f / 12 / 100
