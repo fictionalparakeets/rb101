@@ -49,11 +49,11 @@ end
 
 def within_limits(num, lowlimit, highlimit, errormessage)
   if num > highlimit
-    prompt(errormessage)
-    prompt("Double check your entry please. It looks like it's too high!")
+    puts "#{errormessage}"
+    puts"Double check your entry please. It looks like it's too high!"
   elsif num < lowlimit
-    prompt(errormessage)
-    prompt("Double check your entry please. It looks like it's too low!")
+    puts "#{errormessage}"
+    puts "Double check your entry please. It looks like it's too low!"
   else
     true
   end
