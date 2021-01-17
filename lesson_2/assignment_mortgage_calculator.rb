@@ -40,29 +40,20 @@ end
 
 def num_check(num)
   num.to_i != 0
-    
-  else
-    prompt(errormessage)
-    false
-  end
 end
 
-def within_limits(num, lowlimit, highlimit, errormessage)
-  if num > highlimit
-    puts "#{errormessage}"
-    puts"Double check your entry please. It looks like it's too high!"
-  elsif num < lowlimit
-    puts "#{errormessage}"
-    puts "Double check your entry please. It looks like it's too low!"
-  else
-    true
-  end
+def high_enough?(num, lowlimit)
+  num >= lowlimit
+end
+
+def low_enough?(num, highlimit)
+  num <= highlimit
 end
 
 puts welcome_message
 
 loop do # main loop
-  min_amrt_yrs = 1
+  min_amrt_yrs = 5
   max_amrt_yrs = 25
   amrt_err_msg = <<-MSG
   That doesn't look like a valid length of time for the mortgage.
@@ -73,12 +64,9 @@ loop do # main loop
   max_loan = 100000000
   loan_amt_err = "That doesn't look like a valid loan amount."
 
-  min_apr = 0
-  max_apr = 60
-  apr_err_msg = <<-MSG
-  That doesn't look like a valid APR. Please enter an APR
-  with a maximum of two decimal places.
-  MSG
+  min_apr = 0.01
+  max_apr = 60.00
+  apr_err_msg = "Please enter a percentage with maximum two decimal places."
 
   loan_amount = nil
   loop do
@@ -90,15 +78,22 @@ loop do # main loop
     end
     loan_amount = loan_amount.to_i
     break if num_check(loan_amount) &&
-             within_limits(loan_amount, min_loan, max_loan, loan_amt_err)
-    puts loan_amt_err
+             high_enough?(loan_amount, min_loan) &&
+             low_enough?(loan_amount, max_loan)
+    if num_check(loan_amount) == false
+      puts "#{loan_amt_err} Please enter a valid number."
+    elsif loan_amount < min_loan
+      puts "#{loan_amt_err} It's too low."
+    elsif loan_amount > max_loan
+      puts "#{loan_amt_err} It's too high."
+    end
   end
 
   ann_int_rate = 0
   loop do
     loop do
       prompt("What's the annual interest rate?")
-      ann_int_rate = gets.chomp
+      ann_int_rate = gets.chomp.to_f
       if ann_int_rate.include?("%")
         ann_int_rate = ann_int_rate.delete("%")
       end
@@ -107,8 +102,10 @@ loop do # main loop
       answer = gets.chomp.downcase
       break if answer == "yes"
     end
-    break if num_check(ann_int_rate.to_i) &&
-             within_limits(ann_int_rate.to_i, min_apr, max_apr, apr_err_msg)
+    break if high_enough?(ann_int_rate, min_apr) &&
+             low_enough?(ann_int_rate, max_apr)
+    puts "That rate looks too low. \n#{apr_err_msg}" if ann_int_rate < min_apr
+    puts "That rate looks too high. \n#{apr_err_msg}" if ann_int_rate > max_apr
   end
 
   loan_yrs = 0
@@ -116,7 +113,15 @@ loop do # main loop
     prompt("How many years do you need the mortgage for?")
     loan_yrs = gets.chomp.to_i
     break if num_check(loan_yrs) &&
-             within_limits(loan_yrs, min_amrt_yrs, max_amrt_yrs, amrt_err_msg)
+             high_enough?(loan_yrs, min_amrt_yrs) &&
+             low_enough?(loan_yrs, max_amrt_yrs)
+    if num_check(loan_yrs) == false
+      puts amrt_err_msg
+    elsif loan_yrs < min_amrt_yrs
+      puts "#{amrt_err_msg} Your entry was too low."
+    elsif loan_yrs > max_amrt_yrs
+      puts "#{amrt_err_msg} Your entry was too high."
+    end
   end
 
   mnth_int_rate_decimal = ann_int_rate.to_f / 12 / 100
