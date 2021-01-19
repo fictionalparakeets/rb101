@@ -93,7 +93,7 @@ loop do # main loop
   loop do
     loop do
       prompt("What's the annual interest rate?")
-      ann_int_rate = gets.chomp.to_f
+      ann_int_rate = gets.chomp
       if ann_int_rate.include?("%")
         ann_int_rate = ann_int_rate.delete("%")
       end
@@ -102,6 +102,7 @@ loop do # main loop
       answer = gets.chomp.downcase
       break if answer == "yes"
     end
+    ann_int_rate = ann_int_rate.to_f
     break if high_enough?(ann_int_rate, min_apr) &&
              low_enough?(ann_int_rate, max_apr)
     puts "That rate looks too low. \n#{apr_err_msg}" if ann_int_rate < min_apr
@@ -141,6 +142,7 @@ loop do # main loop
   recalc = gets.chomp.downcase
 
   break if recalc != "yes"
+  system "clear"
 end
 
 puts outro_message
