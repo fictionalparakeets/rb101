@@ -41,7 +41,7 @@ def display_results(player, computer)
 end
 
 def clear_scores(hsh)
-  hsh.transform_values! { |value| value = 0 }
+  hsh.transform_values! { 0 }
 end
 
 def output_match_winner(winner)
@@ -50,7 +50,7 @@ end
 
 def display_scores(hsh)
   puts "***********************************************************"
-  hsh.each { |k, v| puts "#{k}: #{v}"}
+  hsh.each { |k, v| puts "#{k}: #{v}" }
   puts "***********************************************************"
 end
 
