@@ -21,7 +21,7 @@ Your solution should produce the hash below
   Note: a kid is in the age range 0 - 17, an adult is in the range 18 - 64 and a senior is aged 65+.
 =end
 
-munsters.each do |name, nestedhash|
+munsters.each do |name, _|
   if munsters[name]["age"] <= 17
     munsters[name].store("age_group", "kid")
   elsif munsters[name]["age"] <= 64
@@ -31,4 +31,18 @@ munsters.each do |name, nestedhash|
   end
 end
 
-munsters.each { |k,v| puts "#{k} : #{v}" }
+=begin
+# Alternative with case statement
+munsters.map do |name, nestedhash|
+  case nestedhash["age"]
+  when 0..18
+    nestedhash.store("age_group", "kid")
+  when 19..65
+    nestedhash.store("age_group", "adult")
+  else
+    nestedhash.store("age_group", "senior")
+  end
+end
+=end
+
+munsters.each { |k, v| puts "#{k} : #{v}" }
